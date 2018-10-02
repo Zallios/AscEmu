@@ -88,13 +88,6 @@ void WorldSession::HandleGMTicketGetTicketOpcode(WorldPacket& /*recv_data*/)
     }
 }
 
-void WorldSession::HandleGMTicketSystemStatusOpcode(WorldPacket& /*recv_data*/)
-{
-    WorldPacket data(SMSG_GMTICKET_SYSTEMSTATUS, 4);
-    data << uint32_t(sWorld.getGmTicketStatus() ? TicketSystemOK : TicketSystemDisabled);
-    SendPacket(&data);
-}
-
 void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recvData)
 {
     uint32_t map;
