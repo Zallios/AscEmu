@@ -343,7 +343,7 @@ class SERVER_DECL WorldSession
         void HandleGMTicketDeleteOpcode(WorldPacket& /*recvPacket*/);
         void HandleGMTicketGetTicketOpcode(WorldPacket& /*recvPacket*/);
         void HandleGMTicketSystemStatusOpcode(WorldPacket& /*recvPacket*/);
-        void HandleGMTicketToggleSystemStatusOpcode(WorldPacket& recvPacket);
+        void handleGmTicketToggleSystemStatusOpcode(WorldPacket& /*recvPacket*/);
 
         // Lag report
         void handleReportLag(WorldPacket& recvPacket);

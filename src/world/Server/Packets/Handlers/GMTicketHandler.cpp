@@ -158,13 +158,13 @@ void WorldSession::HandleGMTicketSystemStatusOpcode(WorldPacket& /*recv_data*/)
 {
     SendPacket(SmsgGmTicketSystemstatus(sWorld.getGmTicketStatus() ? TicketSystemOK : TicketSystemDisabled).serialise().get());
 }
-
-void WorldSession::HandleGMTicketToggleSystemStatusOpcode(WorldPacket& /*recv_data*/)
+#endif
+void WorldSession::handleGmTicketToggleSystemStatusOpcode(WorldPacket& /*recv_data*/)
 {
     if (HasGMPermissions())
         sWorld.toggleGmTicketStatus();
 }
-#endif
+
 void WorldSession::handleReportLag(WorldPacket& recvPacket)
 {
     CmsgGmReportLag srlPacket;
