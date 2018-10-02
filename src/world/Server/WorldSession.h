@@ -346,7 +346,7 @@ class SERVER_DECL WorldSession
         void HandleGMTicketToggleSystemStatusOpcode(WorldPacket& recvPacket);
 
         // Lag report
-        void HandleReportLag(WorldPacket& recvPacket);
+        void handleReportLag(WorldPacket& recvPacket);
 
         void handleGmSurveySubmitOpcode(WorldPacket& recvPacket);
 

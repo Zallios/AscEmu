@@ -261,25 +261,3 @@ void WorldSession::HandleGMTicketToggleSystemStatusOpcode(WorldPacket& /*recvDat
         sWorld.toggleGmTicketStatus();
     }
 }
-
-void WorldSession::HandleReportLag(WorldPacket& recv_data)
-{
-    uint32_t lagType;
-    uint32_t mapId;
-    float position_x;
-    float position_y;
-    float position_z;
-
-    recv_data >> lagType;
-    recv_data >> mapId;
-    recv_data >> position_x;
-    recv_data >> position_y;
-    recv_data >> position_z;
-
-    if (GetPlayer() != nullptr)
-    {
-        CharacterDatabase.Execute("INSERT INTO lag_reports (player, account, lag_type, map_id, position_x, position_y, position_z) VALUES(%u, %u, %u, %u, %f, %f, %f)", GetPlayer()->getGuidLow(), _accountId, lagType, mapId, position_x, position_y, position_z);
-    }
-
-    LogDebugFlag(LF_OPCODE, "Player %s has reported a lagreport with Type: %u on Map: %u", GetPlayer()->getName().c_str(), lagType, mapId);
-}

@@ -164,11 +164,11 @@ void WorldSession::HandleGMTicketToggleSystemStatusOpcode(WorldPacket& /*recv_da
     if (HasGMPermissions())
         sWorld.toggleGmTicketStatus();
 }
-
-void WorldSession::HandleReportLag(WorldPacket& recv_data)
+#endif
+void WorldSession::handleReportLag(WorldPacket& recvPacket)
 {
     CmsgGmReportLag srlPacket;
-    if (!srlPacket.deserialise(recv_data))
+    if (!srlPacket.deserialise(recvPacket))
         return;
 
     if (GetPlayer() != nullptr)
@@ -179,7 +179,6 @@ void WorldSession::HandleReportLag(WorldPacket& recv_data)
 
     LogDebugFlag(LF_OPCODE, "Player %s has reported a lagreport with Type: %u on Map: %u", GetPlayer()->getName().c_str(), srlPacket.lagType, srlPacket.mapId);
 }
-#endif
 
 void WorldSession::handleGmSurveySubmitOpcode(WorldPacket& recvPacket)
 {
