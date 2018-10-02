@@ -38,17 +38,16 @@ enum GMTicketSystem
     TicketSystemOK = 1
 };
 
-#if VERSION_STRING != Cata
-void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recv_data)
+void WorldSession::handleGmTicketCreateOpcode(WorldPacket& recvPacket)
 {
     CmsgGmTicketCreate srlPacket;
-    if (!srlPacket.deserialise(recv_data))
+    if (!srlPacket.deserialise(recvPacket))
         return;
 
     // Remove pending tickets
     objmgr.RemoveGMTicketByPlayer(GetPlayer()->getGuid());
 
-    GM_Ticket* ticket = new GM_Ticket;
+    auto* ticket = new GM_Ticket;
     ticket->guid = uint64_t(objmgr.GenerateTicketID());
     ticket->playerGuid = GetPlayer()->getGuid();
     ticket->map = srlPacket.map;
@@ -56,8 +55,8 @@ void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recv_data)
     ticket->posY = srlPacket.location.y;
     ticket->posZ = srlPacket.location.z;
     ticket->message = srlPacket.message;
-    ticket->timestamp = (uint32_t)UNIXTIME;
-    ticket->name = GetPlayer()->getName().c_str();
+    ticket->timestamp = static_cast<uint32_t>(UNIXTIME);
+    ticket->name = GetPlayer()->getName();
     ticket->level = GetPlayer()->getLevel();
     ticket->deleted = false;
     ticket->assignedToPlayer = 0;
@@ -85,7 +84,7 @@ void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recv_data)
         channel->Say(_player, ss.str().c_str(), nullptr, true);
     }
 }
-
+#if VERSION_STRING != Cata
 void WorldSession::HandleGMTicketUpdateOpcode(WorldPacket& recv_data)
 {
     CmsgGmTicketUpdateText srlPacket;

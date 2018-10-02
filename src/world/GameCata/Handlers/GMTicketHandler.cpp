@@ -88,6 +88,7 @@ void WorldSession::HandleGMTicketGetTicketOpcode(WorldPacket& /*recv_data*/)
     }
 }
 
+/*
 void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recvData)
 {
     uint32_t map;
@@ -184,7 +185,7 @@ void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recvData)
         channel->Say(_player, messageStream.str().c_str(), nullptr, true);
     }
 }
-
+*/
 void WorldSession::HandleGMTicketDeleteOpcode(WorldPacket& /*recv_data*/)
 {
     GM_Ticket* ticket = objmgr.GetGMTicketByPlayer(GetPlayer()->getGuid());

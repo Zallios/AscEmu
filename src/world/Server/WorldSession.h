@@ -338,7 +338,7 @@ class SERVER_DECL WorldSession
         void handleGameobjReportUseOpCode(WorldPacket& recvPacket);
 
         // Gm Ticket System in GMTicket.cpp:
-        void HandleGMTicketCreateOpcode(WorldPacket& recvPacket);
+        void handleGmTicketCreateOpcode(WorldPacket& recvPacket);
         void HandleGMTicketUpdateOpcode(WorldPacket& recvPacket);
         void HandleGMTicketDeleteOpcode(WorldPacket& /*recvPacket*/);
         void HandleGMTicketGetTicketOpcode(WorldPacket& /*recvPacket*/);
