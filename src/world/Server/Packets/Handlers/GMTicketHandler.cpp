@@ -22,7 +22,7 @@ This file is released under the MIT license. See README-MIT for more information
 
 using namespace AscEmu::Packets;
 
-#if VERSION_STRING != Cata
+
 enum GMTicketResults
 {
     GMTNoTicketFound = 1,
@@ -38,6 +38,7 @@ enum GMTicketSystem
     TicketSystemOK = 1
 };
 
+#if VERSION_STRING != Cata
 void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recv_data)
 {
     CmsgGmTicketCreate srlPacket;
@@ -178,27 +179,27 @@ void WorldSession::HandleReportLag(WorldPacket& recv_data)
 
     LogDebugFlag(LF_OPCODE, "Player %s has reported a lagreport with Type: %u on Map: %u", GetPlayer()->getName().c_str(), srlPacket.lagType, srlPacket.mapId);
 }
+#endif
 
-void WorldSession::HandleGMSurveySubmitOpcode(WorldPacket& recv_data)
+void WorldSession::handleGmSurveySubmitOpcode(WorldPacket& recvPacket)
 {
     CmsgGmSurveySubmit srlPacket;
-    if (!srlPacket.deserialise(recv_data))
+    if (!srlPacket.deserialise(recvPacket))
         return;
 
     QueryResult* result = CharacterDatabase.Query("SELECT MAX(survey_id) FROM gm_survey");
     if (result == nullptr)
         return;
 
-    uint32_t next_survey_id = result->Fetch()[0].GetUInt32() + 1;
+    uint32_t nextSurveyId = result->Fetch()[0].GetUInt32() + 1;
 
     for (auto subSurvey : srlPacket.subSurvey)
         CharacterDatabase.Execute("INSERT INTO gm_survey_answers VALUES(%u , %u , %u)",
-            next_survey_id, subSurvey.subSurveyId, subSurvey.answerId);
+            nextSurveyId, subSurvey.subSurveyId, subSurvey.answerId);
 
     CharacterDatabase.Execute("INSERT INTO gm_survey VALUES (%u, %u, %u, \'%s\', UNIX_TIMESTAMP(NOW()))",
-        next_survey_id, GetPlayer()->getGuidLow(), srlPacket.mainSurveyId, CharacterDatabase.EscapeString(srlPacket.mainComment).c_str());
+        nextSurveyId, GetPlayer()->getGuidLow(), srlPacket.mainSurveyId, CharacterDatabase.EscapeString(srlPacket.mainComment).c_str());
 
     LogDebugFlag(LF_OPCODE, "Player %s has submitted the gm suvey %u successfully.",
-        GetPlayer()->getName().c_str(), next_survey_id);
+        GetPlayer()->getName().c_str(), nextSurveyId);
 }
-#endif

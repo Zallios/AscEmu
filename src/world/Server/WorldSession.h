@@ -348,7 +348,7 @@ class SERVER_DECL WorldSession
         // Lag report
         void HandleReportLag(WorldPacket& recvPacket);
 
-        void HandleGMSurveySubmitOpcode(WorldPacket& recvPacket);
+        void handleGmSurveySubmitOpcode(WorldPacket& recvPacket);
 
         // Opcodes implemented in QueryHandler.cpp:
         void handleGameObjectQueryOpcode(WorldPacket& recvPacket);
